@@ -154,8 +154,14 @@ async function action() {
   );
 
   if (!nextVersionCommand.ok) {
-    core.info("Error");
-    core.error(nextVersionCommand.stderr);
+    core.info(`Error: failed to calculate the next version using "auto version --from ${
+      releaseType === "full-release" 
+      ? latestTagWithoutPreReleases 
+      : latestTagWithPreReleases}"
+    `);
+    core.error(`stdout ${nextVersionCommand.stdout}`);
+    core.error(`error ${nextVersionCommand.error}`);
+    core.error(`stderr ${nextVersionCommand.stderr}`);
     throw new Error(nextVersionCommand.stderr);
   }
 
